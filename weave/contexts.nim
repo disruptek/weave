@@ -12,6 +12,8 @@ import
   ./config,
   ./instrumentation/[profilers, loggers, contracts]
 
+export derefMPSC # Need to be reexported due to a static early resolution bug :/.
+
 when defined(WV_metrics):
   import system/ansi_c, ./primitives/barriers
 
@@ -49,10 +51,10 @@ template isRootTask*(task: Task): bool =
 template myTodoBoxes*: Persistack[WV_MaxConcurrentStealPerWorker, ChannelSpscSinglePtr[Task]] =
   globalCtx.com.tasks[localCtx.worker.ID]
 
-template myThieves*: ChannelMpscUnboundedBatch[StealRequest] =
+template myThieves*: ChannelMpscUnboundedBatch[true, StealRequest] =
   globalCtx.com.thefts[localCtx.worker.ID]
 
-template getThievesOf*(worker: WorkerID): ChannelMpscUnboundedBatch[StealRequest] =
+template getThievesOf*(worker: WorkerID): ChannelMpscUnboundedBatch[true, StealRequest] =
   globalCtx.com.thefts[worker]
 
 template myMemPool*: TLPoolAllocator =

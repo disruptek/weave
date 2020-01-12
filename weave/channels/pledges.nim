@@ -167,7 +167,7 @@ type
     # The MPSC Channel is intrusive to the PledgeImpl.
     # The end fields in the channel should be the consumer
     # to avoid cache-line conflicts with producer threads.
-    chan{.align: WV_CacheLinePadding div 2.}: ChannelMpscUnboundedBatch[TaskNode]
+    chan{.align: WV_CacheLinePadding div 2.}: ChannelMpscUnboundedBatch[false, TaskNode]
     deferredIn: Atomic[int32]
     deferredOut: Atomic[int32]
     fulfilled: Atomic[bool]
@@ -513,8 +513,8 @@ macro delayedUntilMulti*(task: Task, pool: var TLPoolAllocator, pledges: varargs
 # TODO: Once upstream fixes https://github.com/nim-lang/Nim/issues/13122
 #       the size here will be wrong
 
-assert sizeof(ChannelMpscUnboundedBatch[TaskNode]) == 56, # Upstream {.align.} bug
-  "MPSC channel size was " & $sizeof(ChannelMpscUnboundedBatch[TaskNode])
+assert sizeof(ChannelMpscUnboundedBatch[false, TaskNode]) == 56, # Upstream {.align.} bug
+  "MPSC channel size was " & $sizeof(ChannelMpscUnboundedBatch[false, TaskNode])
 
 assert sizeof(PledgeImpl) == 128,
   "PledgeImpl size was " & $sizeof(PledgeImpl)
