@@ -43,7 +43,7 @@ proc init*(_: type Weave) =
   ## Allocation of the global context.
   globalCtx.mempools = wv_alloc(TLPoolAllocator, workforce())
   globalCtx.threadpool = wv_alloc(Thread[WorkerID], workforce())
-  globalCtx.com.thefts = wv_alloc(ChannelMpscUnboundedBatch[StealRequest], workforce())
+  globalCtx.com.thefts = wv_alloc(ChannelMpscUnboundedBatch[true, StealRequest], workforce())
   globalCtx.com.tasks = wv_alloc(Persistack[WV_MaxConcurrentStealPerWorker, ChannelSpscSinglePtr[Task]], workforce())
   Backoff:
     globalCtx.com.parking = wv_alloc(EventNotifier, workforce())

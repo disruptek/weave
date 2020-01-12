@@ -11,6 +11,9 @@ import
   ../instrumentation/contracts,
   ../config, ../contexts
 
+import ../channels/channels_mpsc_unbounded_batch
+## Imported to workaround static early resolution of derefMPSC
+
 type
   LazyChannel* {.union.} = object
     chan*: ptr ChannelSPSCSingle

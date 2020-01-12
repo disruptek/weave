@@ -16,6 +16,8 @@ import
 when WV_Backoff:
   import ../channels/event_notifiers
 
+export derefMPSC # Need to be reexported due to a static early resolution bug :/.
+
 # Global / inter-thread communication channels
 # ----------------------------------------------------------------------------------
 

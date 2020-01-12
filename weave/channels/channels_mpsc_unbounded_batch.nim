@@ -11,7 +11,7 @@ import
 # - https://github.com/nim-lang/Nim/issues/12714
 # - https://github.com/nim-lang/Nim/issues/13048
 
-macro derefMPSC*(keepCount: static bool, T: typedesc): typedesc =
+macro derefMPSC*(T: typedesc): typedesc =
   # This somehows isn't bound properly when used in a typesection (it needs to be exported in this module)
   # and it's even worse if that type section involves a static (it needs to be reexported without hops to all modules!)
   let instantiated = T.getTypeInst
